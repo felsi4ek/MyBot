@@ -234,7 +234,13 @@ async def on_command_error(ctx, error):
 
 @bot.event
 async def on_ready():
-    bot.db = await asyncpg.connect(os.getenv("DATABASE_URL"))
+    bot.db = await asyncpg.connect(
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASSWORD"),
+        host=os.getenv("DB_HOST"),
+        port=5432,
+        database="postgres"
+    )
     print(f"Бот запущен как {bot.user}")
     print("База данных подключена!")
 

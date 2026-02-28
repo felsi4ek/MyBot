@@ -241,7 +241,47 @@ async def on_ready():
         port=5432,
         database="postgres"
     )
+    await create_tables()
     print(f"Бот запущен как {bot.user}")
     print("База данных подключена!")
+
+async def create_tables():
+    await bot.db.execute('''
+        CREATE TABLE IF NOT EXISTS countries (
+            guild_id BIGINT,
+            role_id BIGINT PRIMARY KEY,
+            name TEXT,
+            budget BIGINT DEFAULT 0,
+            economy_level INT DEFAULT 1,
+            production INT DEFAULT 0,
+            infrastructure INT DEFAULT 0,
+            tourism INT DEFAULT 0,
+            metropolis INT DEFAULT 0,
+            sea_access BOOLEAN DEFAULT FALSE,
+            at_war BOOLEAN DEFAULT FALSE
+        )
+    ''')
+
+    await bot.db.execute('''
+        CREATE TABLE IF NOT EXISTS resources (
+            role_id BIGINT PRIMARY KEY REFERENCES countries(role_id),
+            oil INT DEFAULT 0,
+            metal INT DEFAULT 0,
+            grain INT DEFAULT 0,
+            rare INT DEFAULT 0
+        )
+    ''')
+
+    await bot.db.execute('''
+        CREATE TABLE IF NOT EXISTS military (
+            role_id BIGINT PRIMARY KEY REFERENCES countries(role_id),
+            tanks INT DEFAULT 0,
+            planes INT DEFAULT 0,
+            ships INT DEFAULT 0,
+            infantry INT DEFAULT 0
+        )
+    ''')
+
+    print("Таблицы созданы!")
 
 bot.run(os.getenv("TOKEN"))

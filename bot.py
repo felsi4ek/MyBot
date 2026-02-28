@@ -177,6 +177,17 @@ async def unwarn(ctx, member: disnake.Member):
     await ctx.send(embed=embed)
     await send_log(ctx, "✅ Снятие варна [!unwarn]", member, reason=reason)
 
+# ===== АВТО-РОЛЬ ПРИ ВХОДЕ =====
+@bot.event
+async def on_member_join(member):
+    role_participant = disnake.utils.get(member.guild.roles, name="❰👤❱〔Участник〕")
+    role_unregistered = disnake.utils.get(member.guild.roles, name="❰❓❱〔Не зарегистрирован〕")
+    
+    if role_participant:
+        await member.add_roles(role_participant)
+    if role_unregistered:
+        await member.add_roles(role_unregistered)
+
 # ===== HELP =====
 @bot.command(name="help")
 async def help_command(ctx):

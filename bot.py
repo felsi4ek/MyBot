@@ -32,7 +32,7 @@ def is_mod():
 
 # Отправка в канал логов
 async def send_log(ctx, action, target, duration=None, reason=None):
-    logs_channel = disnake.utils.get(ctx.guild.channels, name="logs")
+    logs_channel = disnake.utils.get(ctx.guild.channels, name="「🔨」・логи-наказаний")
     if not logs_channel:
         return
 

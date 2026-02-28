@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 import os
 import asyncio
 import datetime
+import asyncpg
 
 load_dotenv()
 
@@ -233,6 +234,8 @@ async def on_command_error(ctx, error):
 
 @bot.event
 async def on_ready():
+    bot.db = await asyncpg.connect(os.getenv("DATABASE_URL"))
     print(f"Бот запущен как {bot.user}")
+    print("База данных подключена!")
 
 bot.run(os.getenv("TOKEN"))

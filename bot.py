@@ -5,6 +5,7 @@ import os
 import asyncio
 import datetime
 import asyncpg
+from keep_alive import keep_alive
 
 load_dotenv()
 
@@ -284,4 +285,5 @@ async def create_tables():
 
     print("Таблицы созданы!")
 
+keep_alive()
 bot.run(os.getenv("TOKEN"))
